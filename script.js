@@ -80,7 +80,7 @@ const pronouns = [
     { ar: "هُ", en: "him", bn: "সে/তার", posEn: "his", posBn: "তার" },
     { ar: "هُمَا", en: "them (2)", bn: "তারা (২ জন)", posEn: "their (2)", posBn: "তাদের (২ জন)" },
     { ar: "هُمْ", en: "them", bn: "তারা", posEn: "their", posBn: "তাদের" },
-    { ar: "هَا", en: "her", bn: "সে (নারী)", posEn: "her", posBn: "তার (নারী)" },
+    { ar: "هَا", en: "her", bn: "সে/তার (নারী)", posEn: "her", posBn: "তার (নারী)" },
     { ar: "هُمَا ", en: "them (2/f)", bn: "তারা (২ জন নারী)", posEn: "their (f/2)", posBn: "তাদের (২ জন।নারী)" },
     { ar: "هُنَّ", en: "them (f)", bn: "তারা (নারী)", posEn: "their (f)", posBn: "তাদের (নারী)" },
     { ar: "كَ", en: "you", bn: "তুমি", posEn: "your", posBn: "তোমার" },
