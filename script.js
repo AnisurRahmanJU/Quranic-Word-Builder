@@ -43,8 +43,8 @@ const verbs = [
 // --- 3. THE 17 HARFUL JAR ---
 const prefixes = [
     { ar: "", en: "", bn: "" },
-    { ar: "بِ", en: "By/With", bn: "দ্বারা" }, { ar: "تَ", en: "By (oath)", bn: "শপথ" },
-    { ar: "كَ", en: "Like", bn: "মতো" }, { ar: "لِ", en: "For/To", bn: "জন্য" },
+    { ar: "بِ", en: "By/With", bn: "দ্বারা/নিকটে" }, { ar: "تَ", en: "By (oath)", bn: "শপথ" },
+    { ar: "كَ", en: "Like", bn: "মতো" }, { ar: "لِ", en: "For/To", bn: "জন্য/তরে" },
     { ar: "وَ", en: "By (oath)", bn: "শপথ" }, { ar: "مِنْ", en: "From", bn: "থেকে" },
     { ar: "فِي", en: "In", bn: "মধ্যে" }, { ar: "عَنْ", en: "About", bn: "সম্পর্কে" },
     { ar: "عَلَى", en: "Upon", bn: "উপরে" }, { ar: "حَتَّى", en: "Until", bn: "পর্যন্ত" },
@@ -174,3 +174,4 @@ function init() {
 }
 
 init();
+
