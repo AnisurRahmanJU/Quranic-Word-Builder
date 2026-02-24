@@ -9,7 +9,7 @@
 
 // --- 1. DATASET: 50 QURANIC NOUNS ---
 const nouns = [
-    { ar: "ٱللَّه", en: "Allah", bn: "আল্লাহ্" }, { ar: "رَبّ", en: "Lord", bn: "প্রতিপালক" },
+    { ar: "ٱللَّه", en: "Allah", bn: "আল্লাহর" }, { ar: "رَبّ", en: "Lord", bn: "প্রতিপালক" },
     { ar: "رَسُول", en: "Messenger", bn: "রাসূল" }, { ar: "كِتَٰب", en: "Book", bn: "কিতাব" },
     { ar: "ٱسْم", en: "Name", bn: "নাম" }, { ar: "عَبْد", en: "Slave", bn: "বান্দা" },
     { ar: "قَلْب", en: "Heart", bn: "হৃদয়" }, { ar: "نَفْس", en: "Soul", bn: "প্রাণ" },
@@ -63,8 +63,8 @@ const verbs = [
 // --- 3. THE 17 HARFUL JAR ---
 const prefixes = [
     { ar: "", en: "", bn: "" },
-    { ar: "بِ", en: "By/With", bn: "দ্বারা" }, { ar: "تَ", en: "By (oath)", bn: "শপথ" },
-    { ar: "كَ", en: "Like", bn: "মতো" }, { ar: "لِ", en: "For/To", bn: "জন্য" },
+    { ar: "بِ", en: "By/With", bn: "দ্বারা/নিকট" }, { ar: "تَ", en: "By (oath)", bn: "শপথ" },
+    { ar: "كَ", en: "Like", bn: "মতো" }, { ar: "لِ", en: "For/To", bn: "জন্য/তরে" },
     { ar: "وَ", en: "By (oath)", bn: "শপথ" }, { ar: "مِنْ", en: "From", bn: "থেকে" },
     { ar: "فِي", en: "In", bn: "মধ্যে" }, { ar: "عَنْ", en: "About", bn: "সম্পর্কে" },
     { ar: "عَلَى", en: "Upon", bn: "উপরে" }, { ar: "حَتَّى", en: "Until", bn: "পর্যন্ত" },
