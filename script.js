@@ -1,6 +1,14 @@
+/**
+ * QURANIC GRAMMAR ENGINE - AUTHENTIC MORPHOLOGY
+ * Rules: 
+ * 1. Bi-logic: Bihi, Bihim (No Bihu).
+ * 2. Li-logic: Lahu, Lahum (Shift to La) except for 'Li' (me).
+ * 3. Bangla: Removed all "-কে" suffixes for clean meaning.
+ */
 
+// --- 1. DATASET: 50 QURANIC NOUNS ---
 const nouns = [
-    { ar: "ٱللَّه", en: "Allah", bn: "আল্লাহ্" }, { ar: "رَبّ", en: "Lord", bn: "প্রতিপালক" },
+    { ar: "ٱللَّه", en: "Allah", bn: "আল্লাহর" }, { ar: "رَبّ", en: "Lord", bn: "প্রতিপালক" },
     { ar: "رَسُول", en: "Messenger", bn: "রাসূল" }, { ar: "كِتَٰب", en: "Book", bn: "কিতাব" },
     { ar: "ٱسْم", en: "Name", bn: "নাম" }, { ar: "عَبْد", en: "Slave", bn: "বান্দা" },
     { ar: "قَلْب", en: "Heart", bn: "হৃদয়" }, { ar: "نَفْس", en: "Soul", bn: "প্রাণ" },
@@ -23,11 +31,11 @@ const nouns = [
     { ar: "وَالِد", en: "Father", bn: "বাবা" }, { ar: "أُمّ", en: "Mother", bn: "মা" },
     { ar: "أَخ", en: "Brother", bn: "ভাই" }, { ar: "أُخْت", en: "Sister", bn: "বোন" },
     { ar: "مَلَك", en: "Angel", bn: "ফেরেশতা" }, { ar: "بَشَر", en: "Human", bn: "মানুষ" },
-    { ar: "دُنْيَا", en: "World", bn: "দুনিয়া" }, { ar: "ءَاخِرَة", en: "Hereafter", bn: "আখেরাত" },
+    { ar: "دُنْيَا", en: "World", bn: "দুনিয়া" }, { ar: "ءَاخِرَة", en: "Hereafter", bn: "আখেরাত" },
     { ar: "خَيْر", en: "Good", bn: "কল্যাণ" }, { ar: "شَرّ", en: "Evil", bn: "অকল্যাণ" }
 ];
 
-// --- 2. DATASET: 50 QURANIC VERBS ---
+// --- 2. DATASET: 20 QURANIC VERBS ---
 const verbs = [
     { p: "خَلَقَ", m: "يَخْلُقُ", enP: "created", enM: "creates", bnP: "সৃষ্টি করেছেন", bnM: "সৃষ্টি করেন" },
     { p: "جَعَلَ", m: "يَجْعَلُ", enP: "made", enM: "makes", bnP: "বানিয়েছেন", bnM: "বানান" },
@@ -55,7 +63,7 @@ const verbs = [
 const prefixes = [
     { ar: "", en: "", bn: "" },
     { ar: "بِ", en: "By/With", bn: "দ্বারা/নিকট" }, { ar: "تَ", en: "By (oath)", bn: "শপথ" },
-    { ar: "كَ", en: "Like", bn: "মতো" }, { ar: "لِ", en: "For/To", bn: "জন্য" },
+    { ar: "كَ", en: "Like", bn: "মতো" }, { ar: "لِ", en: "For/To", bn: "জন্য/তরে" },
     { ar: "وَ", en: "By (oath)", bn: "শপথ" }, { ar: "مِنْ", en: "From", bn: "থেকে" },
     { ar: "فِي", en: "In", bn: "মধ্যে" }, { ar: "عَنْ", en: "About", bn: "সম্পর্কে" },
     { ar: "عَلَى", en: "Upon", bn: "উপরে" }, { ar: "حَتَّى", en: "Until", bn: "পর্যন্ত" },
@@ -69,17 +77,17 @@ const prefixes = [
 const pronouns = [
     { ar: "", en: "", bn: "" },
     { ar: "هُ", en: "him", bn: "সে/তার", posEn: "his", posBn: "তার" },
-    { ar: "هُمَا", en: "them (2)", bn: "তারা (২ জনের)", posEn: "their (2)", posBn: "তাদের (২ জনের) },
+    { ar: "هُمَا", en: "them (2)", bn: "তারা (২ জন)", posEn: "their (2)", posBn: "তাদের (২ জনের)" },
     { ar: "هُمْ", en: "them", bn: "তারা", posEn: "their", posBn: "তাদের" },
-    { ar: "هَا", en: "her", bn: "সে (নারী)", posEn: "her", posBn: "তার (নারী)" },
-    { ar: "هُمَا ", en: "them (2/f)", bn: "তারা (২ জন/নারীর)", posEn: "their (f/2)", posBn: "তাদের (২ জন/নারীর)" },
-    { ar: "هُنَّ", en: "them (f)", bn: "তারা (নারী)", posEn: "their (f)", posBn: "তাদের (নারীর)" },
+    { ar: "هَا", en: "her", bn: "সে (নারী)", posEn: "her", posBn: "তার (নারীর)" },
+    { ar: "هُمَا ", en: "them (2/f)", bn: "তারা (২ জন নারীর)", posEn: "their (f/2)", posBn: "তাদের (২ জন নারীর)" },
+    { ar: "هُنَّ", en: "them (f)", bn: "তারা (নারীরা)", posEn: "their (f)", posBn: "তাদের (নারীদের)" },
     { ar: "كَ", en: "you", bn: "তুমি", posEn: "your", posBn: "তোমার" },
-    { ar: "كُمَا", en: "you (2)", bn: "তোমরা (২ জনের)", posEn: "your (2)", posBn: "তোমাদের (২ জনের)" },
+    { ar: "كُمَا", en: "you (2)", bn: "তোমরা (২ জন)", posEn: "your (2)", posBn: "তোমাদের (২ জন)" },
     { ar: "كُمْ", en: "you (pl)", bn: "তোমরা", posEn: "your (pl)", posBn: "তোমাদের" },
-    { ar: "كِ", en: "you (f)", bn: "তুমি (নারী)", posEn: "your (f)", posBn: "তোমার (নারী)" },
-    { ar: "كُمَا ", en: "you (2/f)", bn: "তোমরা (২ জন/নারীর)", posEn: "your (f/2)", posBn: "তোমাদের (২ জন/নারীর" },
-    { ar: "كُنَّ", en: "you (f/pl)", bn: "তোমরা (নারী)", posEn: "your (f/pl)", posBn: "তোমাদের (নারীর)" },
+    { ar: "كِ", en: "you (f)", bn: "তুমি (নারী)", posEn: "your (f)", posBn: "তোমার (নারীর)" },
+    { ar: "كُمَا ", en: "you (2/f)", bn: "তোমরা (২ জন নারীর)", posEn: "your (f/2)", posBn: "তোমাদের (২ জন নারীর)" },
+    { ar: "كُنَّ", en: "you (f/pl)", bn: "তোমরা (নারী)", posEn: "your (f/pl)", posBn: "তোমাদের (নারীদের)" },
     { ar: "ي", en: "me", bn: "আমি", posEn: "my", posBn: "আমার" },
     { ar: "نَا", en: "us", bn: "আমরা", posEn: "our", posBn: "আমাদের" }
 ];
@@ -92,7 +100,13 @@ function build() {
 
     const pref = prefixes.find(x => x.ar === prefVal) || {ar:"", en:"", bn:""};
     const pron = pronouns.find(x => x.ar === pronVal) || {ar:"", en:"", bn:""};
-    const item = nouns.find(x => x.ar === rootVal) || verbs.find(x => (x.p + " - " + x.m) === rootVal);
+    
+    let item;
+    if (type === "ism") {
+        item = nouns.find(x => x.ar === rootVal);
+    } else {
+        item = verbs.find(x => (x.p + " - " + x.m) === rootVal);
+    }
 
     let finalAr = ""; 
     let pAr = pref.ar;
@@ -148,9 +162,8 @@ function build() {
         bnRes = `${pref.bn} ${item.bnP} ${pron.bn} - ${pref.bn} ${item.bnM} ${pron.bn}`;
     } else {
         enRes = `${pref.en} ${pron.en}`;
-        // Meaning logic for Harf + Pronoun
         if (pref.ar === "لِ") {
-            bnRes = pron.posBn + " জন্য";
+            bnRes = (pron.posBn || "কারো") + " জন্য";
         } else {
             bnRes = (pron.bn || "") + " " + (pref.bn || "");
         }
