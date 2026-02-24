@@ -1,29 +1,34 @@
+/**
+ * QURANIC GRAMMAR ENGINE - ADVANCED MORPHOLOGY
+ * Rules: Phonetic shifts for Ya-Sakin jars, Min/An logic, and Ism Jarr state.
+ */
 
+// --- 1. DATASET: 50 QURANIC NOUNS (ISMUN) ---
 const nouns = [
     { ar: "ٱللَّه", en: "Allah", bn: "আল্লাহ্" }, { ar: "رَبّ", en: "Lord", bn: "প্রতিপালক" },
     { ar: "رَسُول", en: "Messenger", bn: "রাসূল" }, { ar: "كِتَٰب", en: "Book", bn: "কিতাব" },
     { ar: "ٱسْم", en: "Name", bn: "নাম" }, { ar: "عَبْد", en: "Slave", bn: "বান্দা" },
-    { ar: "قَلْب", en: "Heart", bn: "হৃদয়" }, { ar: "نَفْس", en: "Soul", bn: "প্রাণ" },
+    { ar: "قَلْب", en: "Heart", bn: "হৃদয়" }, { ar: "نَفْس", en: "Soul", bn: "প্রাণ" },
     { ar: "يَوْم", en: "Day", bn: "দিন" }, { ar: "دِين", en: "Religion", bn: "দ্বীন" },
-    { ar: "نُور", en: "Light", bn: "আলো" }, { ar: "صِرَٰط", en: "Path", bn: "পথ" },
+    { ar: "নূর", en: "Light", bn: "আলো" }, { ar: "صِرَٰط", en: "Path", bn: "পথ" },
     { ar: "جَنَّة", en: "Paradise", bn: "জান্নাত" }, { ar: "نَار", en: "Fire", bn: "আগুন" },
     { ar: "آيَة", en: "Sign", bn: "নিদর্শন" }, { ar: "عِلْم", en: "Knowledge", bn: "জ্ঞান" },
     { ar: "حَقّ", en: "Truth", bn: "সত্য" }, { ar: "رَحْمَة", en: "Mercy", bn: "রহমত" },
     { ar: "عَذَاب", en: "Punishment", bn: "শাস্তি" }, { ar: "قَوْم", en: "People", bn: "জাতি" },
     { ar: "بَيْت", en: "House", bn: "ঘর" }, { ar: "أَهْل", en: "Family", bn: "পরিবার" },
-    { ar: "مَآء", en: "Water", bn: "পানি" }, { ar: "أَمْر", en: "Matter", bn: "বিষয়" },
+    { ar: "مَآء", en: "Water", bn: "পানি" }, { ar: "أَمْر", en: "Matter", bn: "বিষয়" },
     { ar: "صَلَٰوة", en: "Prayer", bn: "সালাত" }, { ar: "زَكَٰوة", en: "Charity", bn: "যাকাত" },
     { ar: "فَضْل", en: "Grace", bn: "অনুগ্রহ" }, { ar: "رِزْق", en: "Provision", bn: "রিযিক" },
     { ar: "شَمْس", en: "Sun", bn: "সূর্য" }, { ar: "قَمَر", en: "Moon", bn: "চাঁদ" },
-    { ar: "بَحْر", en: "Sea", bn: "সমুদ্র" }, { ar: "جَبَل", en: "Mountain", bn: "পাহাড়" },
+    { ar: "بَحْر", en: "Sea", bn: "সমুদ্র" }, { ar: "جَبَل", en: "Mountain", bn: "পাহাড়" },
     { ar: "طَعَام", en: "Food", bn: "খাবার" }, { ar: "بَيِّنَة", en: "Evidence", bn: "প্রমাণ" },
     { ar: "بَصَر", en: "Vision", bn: "দৃষ্টি" }, { ar: "سَمْع", en: "Hearing", bn: "শ্রবণ" },
     { ar: "لِسَان", en: "Tongue", bn: "জিহ্বা" }, { ar: "يَد", en: "Hand", bn: "হাত" },
     { ar: "رِجْل", en: "Foot", bn: "পা" }, { ar: "وَلَد", en: "Child", bn: "সন্তান" },
     { ar: "وَالِد", en: "Father", bn: "বাবা" }, { ar: "أُمّ", en: "Mother", bn: "মা" },
-    { ar: "أَخ", en: "Brother", bn: "ভাই" }, { ar: "أُخْت", en: "Sister", bn: "বোন" },
+    { ar: "أَخ", en: "Brother", bn: "ভাই" }, { ar: "أُখ্ত", en: "Sister", bn: "বোন" },
     { ar: "مَلَك", en: "Angel", bn: "ফেরেশতা" }, { ar: "بَشَر", en: "Human", bn: "মানুষ" },
-    { ar: "دُنْيَا", en: "World", bn: "দুনিয়া" }, { ar: "ءَاخِرَة", en: "Hereafter", bn: "আখেরাত" },
+    { ar: "دُنْيَا", en: "World", bn: "দুনিয়া" }, { ar: "ءَاخِرَة", en: "Hereafter", bn: "আখেরাত" },
     { ar: "خَيْر", en: "Good", bn: "কল্যাণ" }, { ar: "شَرّ", en: "Evil", bn: "অকল্যাণ" }
 ];
 
@@ -34,7 +39,7 @@ const verbs = [
     { p: "أَنزَلَ", m: "يُنزِلُ", enP: "sent down", enM: "sends down", bnP: "নাযিল করেছেন", bnM: "নাযিল করেন" },
     { p: "قَالَ", m: "يَقُولُ", enP: "said", enM: "says", bnP: "বলেছেন", bnM: "বলেন" },
     { p: "آمَنَ", m: "يُؤْمِنُ", enP: "believed", enM: "believes", bnP: "ঈমান এনেছেন", bnM: "ঈমান আনেন" },
-    { p: "كَفَرَ", m: "يَكْفُرُ", enP: "disbelieved", enM: "disbelieves", bnP: "অস্বীকার করেছেন", bnM: "অস্বীকার করেন" },
+    { p: "كَفَرَ", m: "يَكْفُرُ", enP: "disbelieved", enM: "disbelieves", bnP: "কুফরি করেছেন", bnM: "কুফরি করেন" },
     { p: "عَلِمَ", m: "يَعْلَمُ", enP: "knew", enM: "knows", bnP: "জেনেছেন", bnM: "জানেন" },
     { p: "هَدَىٰ", m: "يَهْدِي", enP: "guided", enM: "guides", bnP: "পথ দেখিয়েছেন", bnM: "পথ দেখান" },
     { p: "رَزَقَ", m: "يَرْزُقُ", enP: "provided", enM: "provides", bnP: "রিযিক দিয়েছেন", bnM: "রিযিক দেন" },
@@ -54,7 +59,7 @@ const verbs = [
 // --- 3. THE 17 HARFUL JAR ---
 const prefixes = [
     { ar: "", en: "", bn: "" },
-    { ar: "بِ", en: "By/With", bn: "দ্বারা/নিকটে" }, { ar: "تَ", en: "By (oath)", bn: "শপথ" },
+    { ar: "بِ", en: "By/With", bn: "দ্বারা" }, { ar: "تَ", en: "By (oath)", bn: "শপথ" },
     { ar: "كَ", en: "Like", bn: "মতো" }, { ar: "لِ", en: "For/To", bn: "জন্য" },
     { ar: "وَ", en: "By (oath)", bn: "শপথ" }, { ar: "مِنْ", en: "From", bn: "থেকে" },
     { ar: "فِي", en: "In", bn: "মধ্যে" }, { ar: "عَنْ", en: "About", bn: "সম্পর্কে" },
@@ -92,43 +97,54 @@ function build() {
 
     let arOut = ""; let enOut = ""; let bnOut = "";
 
-    // 1. HANDLE ISM (Noun) CASE
+    // 1. Logic for ISM (Noun) or Pure Particle+Pronoun
     if (type === "ism") {
         const item = nouns.find(x => x.ar === rootVal);
-        
-        let pronAr = pron.ar;
-        // Phonetic Shift logic (U to I) for specific Harf Jars or Noun possession
-        if (["بِ", "لِ", "فِي", "إِلَى", "عَلَى", "مِنْ"].includes(pref.ar) || (item && pron.ar)) {
-            pronAr = pronAr.replace("هُ", "هِ").replace("هُمْ", "হিম্").replace("هُمَا", "هِمَا").replace("هُنَّ", "هِنَّ");
-        }
-
         let baseAr = item ? item.ar : "";
         let currentPref = pref.ar;
+        let currentPron = pron.ar;
 
-        // Special Rule: Li becomes La before pronouns (except Ya)
+        // --- Rule A: Phonetic Shift for Pronouns (Hu -> Hi) ---
+        // Conditions: 1. Ya-sakin jars (Ala/Ila/Fi) 2. B/L prefix on nouns 
+        const isYaSakinJar = ["إِلَى", "عَلَى", "فِي"].includes(pref.ar);
+        const isNormalJar = ["بِ", "لِ"].includes(pref.ar);
+
+        if (isYaSakinJar || (isNormalJar && baseAr !== "") || (item && pron.ar)) {
+            // Hu/Hum/Huma/Hunna becomes Hi/Him...
+            currentPron = currentPron.replace("هُ", "هِ").replace("هُمْ", "هِمْ").replace("هُمَا", "هِمَا").replace("هُنَّ", "هِنَّ");
+        }
+        
+        // Specifc Rule: 'Min' and 'An' do NOT shift Hu to Hi
+        if (pref.ar === "مِنْ" || pref.ar === "عَنْ") {
+            currentPron = pron.ar; // Keep original
+        }
+
+        // --- Rule B: Li becomes La before pronouns (except Ya) ---
         if (currentPref === "لِ" && pron.ar !== "" && pron.ar !== "ي" && !item) {
             currentPref = "لَ";
         }
 
-        // Apply Kasra (Jarr) to noun if prefix exists
+        // --- Rule C: Jarr (Kasra) on Noun ends ---
         if (currentPref !== "" && baseAr !== "") {
-            if (currentPref === "بِ" && baseAr === "ٱسْم") baseAr = "بِسْمِ";
+            // Special Quranic joins
+            if (currentPref === "بِ" && baseAr === "ٱসْم") baseAr = "بِسْمِ";
             else if (currentPref === "لِ" && baseAr === "ٱللَّه") baseAr = "لِلَّهِ";
+            else if (currentPref === "بِ" && baseAr === "ٱللَّه") baseAr = "بِٱللَّهِ";
             else {
-                baseAr = baseAr.replace(/[ٌُ]$/, "ِ");
-                if (!baseAr.endsWith("ِ")) baseAr += "ِ";
+                baseAr = baseAr.replace(/[ٌُ]$/, "ِ"); // Move to Jarr
+                if (!baseAr.endsWith("ِ") && !baseAr.endsWith("ٰ")) baseAr += "ِ";
             }
         }
 
-        // Handle Alif Maqsura (Ila/Ala) transformation to Ya
-        let prefixPart = currentPref + baseAr;
-        if (["إِلَى", "عَلَى"].includes(pref.ar) && pron.ar !== "" && !item) {
-            prefixPart = prefixPart.replace("ى", "يْ");
+        // --- Rule D: Alif Maqsura (ى) to Ya-Sakin (يْ) ---
+        let combined = currentPref + baseAr;
+        if (isYaSakinJar && currentPron !== "" && !item) {
+            combined = combined.replace("ى", "يْ");
         }
 
-        arOut = prefixPart + pronAr;
+        arOut = combined + currentPron;
 
-        // Translation Mapping
+        // Translation Logic
         if (item) {
             let bnNoun = (item.ar === "ٱللَّه") ? "আল্লাহর" : item.bn + "ের";
             enOut = `${pref.en} ${pron.ar ? pron.posEn : ""} ${item.en}`;
@@ -138,11 +154,10 @@ function build() {
             bnOut = `${pron.posBn} ${pref.bn}`;
         }
 
-    // 2. HANDLE FI'L (Verb) CASE
+    // 2. Logic for FI'L (Verbs)
     } else {
         const item = verbs.find(x => (x.p + " - " + x.m) === rootVal);
         if (!item) {
-             // Fallback if Verb is selected but Root is None
              arOut = pref.ar + pron.ar;
              enOut = pref.en + " " + pron.en;
              bnOut = pron.posBn + " " + pref.bn;
@@ -150,11 +165,12 @@ function build() {
             let pAr = item.p; let mAr = item.m; 
             let pPron = pron.ar; let mPron = pron.ar;
 
-            if (pref.ar === "لِ") mAr = mAr.replace(/ُ$/, "َ"); 
+            if (pref.ar === "لِ") mAr = mAr.replace(/ُ$/, "َ"); // Nasb
 
-            if (["بِ", "لِ", "فِي", "إِلَى", "عَلَى"].includes(pref.ar)) {
-                pPron = pPron.replace("هُ", "هِ").replace("هُمْ", "هِمْ").replace("هُمَا", "هِمَا");
-                mPron = mPron.replace("هُ", "هِ").replace("هُمْ", "هِمْ").replace("هُمَا", "هِمَا");
+            // Verbs don't usually shift pronouns to Hi unless preceded by specific Jar types
+            if (["بِ", "لِ", "فِي"].includes(pref.ar)) {
+                pPron = pPron.replace("هُ", "هِ").replace("هُمْ", "هِمْ");
+                mPron = mPron.replace("هُ", "هِ").replace("هُمْ", "هِمْ");
             }
 
             arOut = `${pref.ar}${pAr}${pPron} - ${pref.ar}${mAr}${mPron}`;
@@ -162,9 +178,6 @@ function build() {
             if (pref.ar === "لِ") {
                 enOut = `To ${item.enP} ${pron.en} - To ${item.enM} ${pron.en}`;
                 bnOut = `${pron.bn} ${item.bnP} করার জন্য - ${pron.bn} ${item.bnM} করার জন্য`;
-            } else if (pref.ar === "بِ") {
-                enOut = `By ${item.enP} ${pron.en} - By ${item.enM} ${pron.en}`;
-                bnOut = `${pron.bn} ${item.bnP} করার দ্বারা - ${pron.bn} ${item.bnM} করার দ্বারা`;
             } else {
                 enOut = `${pref.en} ${item.enP} ${pron.en} - ${pref.en} ${item.enM} ${pron.en}`;
                 bnOut = `${pref.bn} ${item.bnP} ${pron.bn} - ${pref.bn} ${item.bnM} ${pron.bn}`;
@@ -198,7 +211,5 @@ function init() {
     document.getElementById("btnGenerate").onclick = build;
     tSel.onchange();
 }
-
-// Start the app
 
 init();
