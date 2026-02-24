@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quranic Word Builder</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="bg-[#0f172a] text-slate-200 p-4 md:p-8 min-h-screen">
+
+<div class="max-w-6xl mx-auto">
+
+<header class="mb-10 text-center">
+<h1 class="text-4xl font-extrabold text-white tracking-tight">
+Quranic <span class="text-indigo-400">Word Builder</span>
+</h1>
+<p class="text-slate-400 mt-2 font-medium">
+Build Arabic words using Prefix + Root + Pronoun
+</p>
+</header>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+<!-- LEFT PANEL -->
+<div class="lg:col-span-1 bg-slate-800/50 p-6 rounded-2xl shadow-2xl border border-slate-700 space-y-5">
+
+<div>
+<label class="block text-xs font-bold text-indigo-400 uppercase mb-2">
+Word Type
+</label>
+<select id="wordType" class="select-style">
+<option value="ism">Ismun (اسم)</option>
+<option value="fiil">Fi'lun (فعل)</option>
+</select>
+</div>
+
+<div>
+<label class="label-style">Harful Jar / Atfu</label>
+<select id="prefix" class="select-style"></select>
+</div>
+
+<div>
+<label class="label-style">Root Word</label>
+<select id="root" class="select-style"></select>
+</div>
+
+<div>
+<label class="label-style">Attached Pronoun</label>
+<select id="pronoun" class="select-style"></select>
+</div>
+
+<button id="btnGenerate" class="btn-style">
+Build The Word
+</button>
+
+</div>
+
+<!-- RIGHT OUTPUT -->
+<div class="lg:col-span-2 space-y-6">
+
+<div class="output-box">
+<span class="output-title">Arabic Word</span>
+<div id="ar-out" class="arabic-text" dir="rtl">...</div>
+</div>
+
+<div class="meaning-box">
+<span class="meaning-title">Meaning</span>
+<p id="en-out" class="meaning-text">...</p>
+</div>
+
+</div>
+</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
