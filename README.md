@@ -1,2 +1,2 @@
-# Quranic-Word-Builder
-Quranic Word Builder
+# Arabic-Word-Builder
+Arabic Word Builder
