@@ -7,7 +7,7 @@
 
 // --- 1. DATASET: 50 QURANIC NOUNS ---
 const nouns = [
-    { ar: "ٱللَّه", en: "Allah", bn: "আল্লাহ" }, { ar: "رَبّ", en: "Lord", bn: "প্রতিপালক" },
+    { ar: "ٱللَّه", en: "Allah", bn: "আল্লাহর" }, { ar: "رَبّ", en: "Lord", bn: "প্রতিপালক" },
     { ar: "رَسُول", en: "Messenger", bn: "রাসূল" }, { ar: "كِتَٰب", en: "Book", bn: "কিতাব" },
     { ar: "ٱسْم", en: "Name", bn: "নাম" }, { ar: "عَبْد", en: "Slave", bn: "বান্দা" },
     { ar: "قَلْب", en: "Heart", bn: "হৃদয়" }, { ar: "نَفْس", en: "Soul", bn: "প্রাণ" },
