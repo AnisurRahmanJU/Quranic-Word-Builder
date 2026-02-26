@@ -1,22 +1,22 @@
-
+// --- 1. DATASET: 50 QURANIC NOUNS ---
 const nouns = [
-    { ar: "ٱللَّه", en: "Allah", bn: "আল্লাহ" }, { ar: "رَبّ", en: "Lord", bn: "প্রতিপালক" },
+    { ar: "ٱللَّه", en: "Allah", bn: "আল্লাহ" }, { ar: "رَبّ", en: "Lord", bn: "প্রতিপালক" },
     { ar: "رَسُول", en: "Messenger", bn: "রাসূল" }, { ar: "كِتَٰب", en: "Book", bn: "কিতাব" },
     { ar: "ٱسْم", en: "Name", bn: "নাম" }, { ar: "عَبْد", en: "Slave", bn: "বান্দা" },
     { ar: "قَلْب", en: "Heart", bn: "হৃদয়" }, { ar: "نَفْس", en: "Soul", bn: "প্রাণ" },
     { ar: "يَوْم", en: "Day", bn: "দিন" }, { ar: "دِين", en: "Religion", bn: "দ্বীন" },
     { ar: "نُور", en: "Light", bn: "আলো" }, { ar: "صِرَٰط", en: "Path", bn: "পথ" },
-    { ar: "جَنَّة", en: "Paradise", bn: "জান্নাত" }, { ar: "نَار", en: "Fire", bn: "আগুন" },
+    { ar: "جَنَّة", en: "Paradise", bn: "জান্নাত" }, { ar: "نَار", en: "Fire", bn: "আগুন" },
     { ar: "آيَة", en: "Sign", bn: "নিদর্শন" }, { ar: "عِلْم", en: "Knowledge", bn: "জ্ঞান" },
-    { ar: "حَقّ", en: "Truth", bn: "সত্য" }, { ar: "رَحْمَة", en: "Mercy", bn: "রহমত" },
+    { ar: "حَقّ", en: "Truth", bn: "রত্য" }, { ar: "رَحْمَة", en: "Mercy", bn: "রহমত" },
     { ar: "عَذَاب", en: "Punishment", bn: "শাস্তি" }, { ar: "قَوْم", en: "People", bn: "জাতি" },
     { ar: "بَيْت", en: "House", bn: "ঘর" }, { ar: "أَهْل", en: "Family", bn: "পরিবার" },
-    { ar: "مَآء", en: "Water", bn: "পানি" }, { ar: "أَمْر", en: "Matter", bn: "বিষয়" },
+    { ar: "مَآء", en: "Water", bn: "পানি" }, { ar: "أَمْر", en: "Matter", bn: "বিষয়" },
     { ar: "صَلَٰوة", en: "Prayer", bn: "সালাত" }, { ar: "زَكَٰوة", en: "Charity", bn: "যাকাত" },
     { ar: "فَضْل", en: "Grace", bn: "অনুগ্রহ" }, { ar: "رِزْق", en: "Provision", bn: "রিযিক" },
     { ar: "شَمْس", en: "Sun", bn: "সূর্য" }, { ar: "قَمَر", en: "Moon", bn: "চাঁদ" },
     { ar: "بَحْر", en: "Sea", bn: "সমুদ্র" }, { ar: "جَبَل", en: "Mountain", bn: "পাহাড়" },
-    { ar: "طَعَام", en: "Food", bn: "খাবার" }, { ar: "بَيِّنَة", en: "Evidence", bn: "প্রমাণ" },
+    { ar: "طَعَام", en: "Food", bn: "খাবার" }, { ar: "بَيِّنَة", en: "Evidence", bn: "প্রমাণ" },
     { ar: "بَصَر", en: "Vision", bn: "দৃষ্টি" }, { ar: "سَمْع", en: "Hearing", bn: "শ্রবণ" },
     { ar: "لِسَان", en: "Tongue", bn: "জিহ্বা" }, { ar: "يَد", en: "Hand", bn: "হাত" },
     { ar: "رِجْل", en: "Foot", bn: "পা" }, { ar: "وَلَد", en: "Child", bn: "সন্তান" },
@@ -58,9 +58,9 @@ const prefixes = [
     { ar: "كَ", en: "Like", bn: "মতো" }, { ar: "لِ", en: "For/To", bn: "জন্য/তরে" },
     { ar: "وَ", en: "By (oath)", bn: "শপথ" }, { ar: "مِنْ", en: "From", bn: "থেকে" },
     { ar: "فِي", en: "In", bn: "মধ্যে" }, { ar: "عَنْ", en: "About", bn: "সম্পর্কে" },
-    { ar: "عَلَى", en: "Upon", bn: "উপরে" }, { ar: "حَتَّى", en: "Until", bn: "পর্যন্ত" },
+    { ar: "عَلَى", en: "Upon", bn: "উপরে" }, { ar: "حَتَّى", en: "Until", bn: "পর্যন্ত" },
     { ar: "إِلَى", en: "To", bn: "প্রতি" }, { ar: "مُذْ", en: "Since", bn: "হতে" },
-    { ar: "مُنْذُ", en: "Since", bn: "হতে" }, { ar: "رُبَّ", en: "Many/Few", bn: "অনেক/কম" },
+    { ar: "مُنْذُ", en: "Since", bn: "হতে" }, { ar: "رُبَّ", en: "Many/Few", bn: "অনেক/কম" },
     { ar: "خَلَا", en: "Except", bn: "ব্যতীত" }, { ar: "عَدَا", en: "Except", bn: "ব্যতীত" },
     { ar: "حَاشَا", en: "Except", bn: "ব্যতীত" }
 ];
@@ -73,13 +73,13 @@ const pronouns = [
     { ar: "هُمْ", en: "them", bn: "তারা/তাদের", posEn: "their", posBn: "তাদের", verb_bn: "তাদেরকে" },
     { ar: "هَا", en: "her", bn: "সে/তার (নারী)", posEn: "her", posBn: "তার (নারী)", verb_bn: "তাকে (নারী)" },
     { ar: "هُمَا ", en: "them (2/f)", bn: "তাদের (২ জন নারী)", posEn: "their (f/2)", posBn: "তাদের (২ জন নারী)", verb_bn: "তাদের (২ জন নারী)কে" },
-    { ar: "هُنَّ", en: "them (f)", bn: "তারা (নারী)", posEn: "their (f)", posBn: "তাদের (নারী)", verb_bn: "তাদেরকে (নারী)" },
+    { ar: "هُنَّ", en: "them (f)", bn: "তারা (নারী)", posEn: "their (f)", posBn: "তাদের (নারী)", verb_bn: "তাদেরকে (নারী)" },
     { ar: "كَ", en: "you", bn: "তুমি/তোমার", posEn: "your", posBn: "তোমার", verb_bn: "তোমাকে" },
     { ar: "كُمَا", en: "you (2)", bn: "তোমরা (২ জন)", posEn: "your (2)", posBn: "তোমাদের (২ জন)", verb_bn: "তোমাদের (২ জন)কে" },
     { ar: "كُمْ", en: "you (pl)", bn: "তোমরা/তোমাদের", posEn: "your (pl)", posBn: "তোমাদের", verb_bn: "তোমাদেরকে" },
     { ar: "كِ", en: "you (f)", bn: "তুমি (নারী)", posEn: "your (f)", posBn: "তোমার (নারী)", verb_bn: "তোমাকে (নারী)" },
     { ar: "كُمَا ", en: "you (2/f)", bn: "তোমরা (২ জন নারী)", posEn: "your (f/2)", posBn: "তোমাদের (২ জন নারী)", verb_bn: "তোমাদের (২ জন নারী)কে" },
-    { ar: "كُنَّ", en: "you (f/pl)", bn: "তোমরা (নারী)", posEn: "your (f/pl)", posBn: "তোমাদের (নারী)", verb_bn: "তোমাদেরকে (নারী)" },
+    { ar: "كُنَّ", en: "you (f/pl)", bn: "তোমরা (নারী)", posEn: "your (f/pl)", posBn: "তোমাদের (নারী)", verb_bn: "তোমাদেরকে (নারী)" },
     { ar: "ي", en: "me", bn: "আমি/আমার", posEn: "my", posBn: "আমার", verb_bn: "আমাকে" },
     { ar: "نَا", en: "us", bn: "আমরা/আমাদের", posEn: "our", posBn: "আমাদের", verb_bn: "আমাদেরকে" }
 ];
@@ -104,28 +104,37 @@ function build() {
     let pAr = pref.ar;
     let sAr = pron.ar;
 
+    // Rule: Shift Hu to Hi after specific prepositions
     const shiftsHuToHi = ["بِ", "فِي", "إِلَى", "عَلَى"];
     if (type !== "verb" && shiftsHuToHi.includes(pAr)) {
-        sAr = sAr.replace("هُ", "هِ").replace("هُمْ", "هِمْ").replace("هُمَا", "هِمَا").replace("هُنَّ", "هِنَّ");
+        sAr = sAr.replace("هُ", "هِ").replace("هُمْ", "هِمْ").replace("هُمَا", "هِمَا").replace("هُنَّ", "هِنَّ");
     }
 
     if (type === "ism" && item) {
         let baseAr = item.ar;
-        if (pAr === "") {
+        
+        // Handling Harakat logic
+        if (sAr === "ي") {
+            // NEW RULE: If pronoun is 'Ya' (Me/My), noun must end in Kasra (jer)
+            baseAr = baseAr.replace(/[ٌُِ]$/, ""); // Clear last harakah
+            baseAr += "ِ"; // Add Jer
+        } else if (pAr === "") {
             baseAr = baseAr.replace(/[ِ]$/, "ُ"); 
-            if (!baseAr.endsWith("ُ") && !baseAr.endsWith("ٰ") && baseAr !== "ٱللَّه") baseAr += "ُ";
+            if (!baseAr.endsWith("ُ") && !baseAr.endsWith("ٰ") && baseAr !== "ٱللَّه") baseAr += "ُ";
         } else {
-            if (baseAr === "ٱللَّه") {
-                if (pAr === "لِ") { pAr = ""; baseAr = "لِلَّهِ"; }
-                else if (pAr === "بِ") { pAr = ""; baseAr = "بِٱللَّهِ"; }
+            // Rules for Allah and Ism
+            if (baseAr === "ٱللَّه") {
+                if (pAr === "لِ") { pAr = ""; baseAr = "لِلَّهِ"; }
+                else if (pAr === "بِ") { pAr = ""; baseAr = "بِٱللَّهِ"; }
                 else { baseAr = baseAr.replace(/[ُ]$/, "ِ"); }
-            } else if (baseAr === "ٱসْم" && pAr === "بِ") {
+            } else if (baseAr === "ٱسْم" && pAr === "بِ") {
                 pAr = ""; baseAr = "بِسْمِ";
             } else {
                 baseAr = baseAr.replace(/[ٌُ]$/, "ِ");
                 if (!baseAr.endsWith("ِ") && !baseAr.endsWith("ٰ")) baseAr += "ِ";
             }
         }
+        
         const attachedHars = ["بِ", "لِ", "تَ", "كَ", "وَ"];
         const connector = (attachedHars.includes(pAr) || pAr === "") ? "" : " ";
         finalAr = pAr + connector + baseAr + sAr;
@@ -138,7 +147,7 @@ function build() {
         finalAr = body + sAr;
     }
 
-    // --- UPDATED TRANSLATION LOGIC ---
+    // --- TRANSLATION LOGIC ---
     let enRes = "", bnRes = "";
     if (item && type === "ism") {
         enRes = `${pref.en} ${pron.ar ? pron.posEn : ""} ${item.en}`;
@@ -147,7 +156,6 @@ function build() {
         let suffix = "";
         
         if (pAr !== "" || prefVal !== "") {
-            // Updated suffix condition for Jati, Allah, etc.
             if (bnNoun === "আল্লাহ" || bnNoun.endsWith("া") || bnNoun.endsWith("ি") || bnNoun.endsWith("ী")) {
                 suffix = "র"; 
             } else {
