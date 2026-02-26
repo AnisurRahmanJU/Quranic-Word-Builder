@@ -1,13 +1,11 @@
 /**
- * QURANIC GRAMMAR ENGINE - AUTHENTIC MORPHOLOGY
- * Fix: "Ism" + "Bi" now correctly renders as "بِسْمِ" (Bismi).
- * Feature: Auto-disable Prefix when "Fi'lun" (Verb) is selected.
- * Dual Label: Updated to "(২ জন)" and "(২ জন নারী)".
+ * QURANIC GRAMMAR ENGINE - AUTHENTIC MORPHOLOGY (V6 FINAL)
+ * Specific Fix: "Jati" + Harf = "জাতির" (Not জাতিের).
+ * Suffix Logic: Nouns ending in 'a', 'i', 'ee' or "Allah" get "r" (র).
  */
-
 // --- 1. DATASET: 50 QURANIC NOUNS ---
 const nouns = [
-    { ar: "ٱللَّه", en: "Allah", bn: "আল্লাহর" }, { ar: "رَبّ", en: "Lord", bn: "প্রতিপালক" },
+    { ar: "ٱللَّه", en: "Allah", bn: "আল্লাহ" }, { ar: "رَبّ", en: "Lord", bn: "প্রতিপালক" },
     { ar: "رَسُول", en: "Messenger", bn: "রাসূল" }, { ar: "كِتَٰب", en: "Book", bn: "কিতাব" },
     { ar: "ٱسْم", en: "Name", bn: "নাম" }, { ar: "عَبْد", en: "Slave", bn: "বান্দা" },
     { ar: "قَلْب", en: "Heart", bn: "হৃদয়" }, { ar: "نَفْس", en: "Soul", bn: "প্রাণ" },
@@ -111,7 +109,6 @@ function build() {
     let pAr = pref.ar;
     let sAr = pron.ar;
 
-    // RULE: Phonetic Shift Hu -> Hi (ONLY for Harf, NOT for Verb)
     const shiftsHuToHi = ["بِ", "فِي", "إِلَى", "عَلَى"];
     if (type !== "verb" && shiftsHuToHi.includes(pAr)) {
         sAr = sAr.replace("هُ", "هِ").replace("هُمْ", "هِمْ").replace("هُمَا", "هِمَا").replace("هُنَّ", "هِنَّ");
@@ -119,43 +116,55 @@ function build() {
 
     if (type === "ism" && item) {
         let baseAr = item.ar;
-        
-        // --- SPECIAL CASE: Bismi (بِسْمِ) and Allah (لِلَّهِ) ---
-        if (baseAr === "ٱللَّه") {
-            if (pAr === "لِ") { pAr = ""; baseAr = "لِلَّهِ"; }
-            else if (pAr === "بِ") { pAr = ""; baseAr = "بِٱللَّهِ"; }
-            else { baseAr = baseAr.replace(/[ُ]$/, "ِ"); }
-        } else if (baseAr === "ٱسْم" && pAr === "بِ") {
-            pAr = ""; baseAr = "بِسْمِ"; // Correctly renders "Bismi"
+        if (pAr === "") {
+            baseAr = baseAr.replace(/[ِ]$/, "ُ"); 
+            if (!baseAr.endsWith("ُ") && !baseAr.endsWith("ٰ") && baseAr !== "ٱللَّه") baseAr += "ُ";
         } else {
-            baseAr = baseAr.replace(/[ٌُ]$/, "ِ");
-            if (!baseAr.endsWith("ِ") && !baseAr.endsWith("ٰ")) baseAr += "ِ";
+            if (baseAr === "ٱللَّه") {
+                if (pAr === "لِ") { pAr = ""; baseAr = "لِلَّهِ"; }
+                else if (pAr === "بِ") { pAr = ""; baseAr = "بِٱللَّهِ"; }
+                else { baseAr = baseAr.replace(/[ُ]$/, "ِ"); }
+            } else if (baseAr === "ٱসْم" && pAr === "بِ") {
+                pAr = ""; baseAr = "بِسْمِ";
+            } else {
+                baseAr = baseAr.replace(/[ٌُ]$/, "ِ");
+                if (!baseAr.endsWith("ِ") && !baseAr.endsWith("ٰ")) baseAr += "ِ";
+            }
         }
-
         const attachedHars = ["بِ", "لِ", "تَ", "كَ", "وَ"];
         const connector = (attachedHars.includes(pAr) || pAr === "") ? "" : " ";
         finalAr = pAr + connector + baseAr + sAr;
 
     } else if (item) {
-        // --- VERB + PRONOUN (Keeps Damma: خَلَقَهُمَا) ---
-        // For Verbs, the prefix (Harf) is ignored in Arabic output
-        let pVer = item.p; 
-        let mVer = item.m;
-        finalAr = `${pVer}${sAr} — ${mVer}${sAr}`;
-
+        finalAr = `${item.p}${sAr} — ${item.m}${sAr}`;
     } else {
         let body = pAr;
-        if (["إِلَى", "عَلَى"].includes(pAr) && sAr !== "") {
-            body = body.replace("ى", "يْ");
-        }
+        if (["إِلَى", "عَلَى"].includes(pAr) && sAr !== "") { body = body.replace("ى", "يْ"); }
         finalAr = body + sAr;
     }
 
-    // --- TRANSLATION LOGIC ---
+    // --- UPDATED TRANSLATION LOGIC ---
     let enRes = "", bnRes = "";
     if (item && type === "ism") {
         enRes = `${pref.en} ${pron.ar ? pron.posEn : ""} ${item.en}`;
-        bnRes = `${pron.ar ? pron.posBn : ""} ${item.bn}${(item.ar==="ٱللَّه"?"":"ের")} ${pref.bn}`;
+        
+        let bnNoun = item.bn;
+        let suffix = "";
+        
+        if (pAr !== "" || prefVal !== "") {
+            // Updated suffix condition for Jati, Allah, etc.
+            if (bnNoun === "আল্লাহ" || bnNoun.endsWith("া") || bnNoun.endsWith("ি") || bnNoun.endsWith("ী")) {
+                suffix = "র"; 
+            } else {
+                suffix = "ের";
+            }
+        }
+
+        if (pAr === "" && prefVal === "") {
+            bnRes = `${pron.ar ? pron.posBn : ""} ${bnNoun}`;
+        } else {
+            bnRes = `${pron.ar ? pron.posBn : ""} ${bnNoun}${suffix} ${pref.bn}`;
+        }
     } else if (item) {
         enRes = `${item.enP} ${pron.en} — ${item.enM} ${pron.en}`;
         bnRes = `তিনি ${pron.verb_bn || ""} ${item.bnP} — তিনি ${pron.verb_bn || ""} ${item.bnM}`;
@@ -177,29 +186,20 @@ function init() {
     document.getElementById("pronoun").innerHTML = pronouns.map(x => `<option value="${x.ar}">${x.ar || 'Pronoun'}</option>`).join('');
 
     tSel.onchange = () => {
-        // --- AUTO DISABLE Harf when "verb" is selected ---
         if (tSel.value === "verb") {
-            pSel.value = "";
-            pSel.disabled = true;
-            pSel.style.opacity = "0.5";
-            pSel.style.cursor = "not-allowed";
+            pSel.value = ""; pSel.disabled = true; pSel.style.opacity = "0.5";
         } else {
-            pSel.disabled = false;
-            pSel.style.opacity = "1";
-            pSel.style.cursor = "default";
+            pSel.disabled = false; pSel.style.opacity = "1";
         }
-
         const list = (tSel.value === "ism") ? nouns : verbs;
-        let opts = '<option value="">None (Jar + Pronoun only)</option>';
+        let opts = '<option value="">None</option>';
         opts += list.map(x => {
             const v = (tSel.value === "ism") ? x.ar : `${x.p} - ${x.m}`;
             return `<option value="${v}">${v}</option>`;
         }).join('');
         rSel.innerHTML = opts;
     };
-    
     document.getElementById("btnGenerate").onclick = build;
     tSel.onchange();
 }
-
 init();
