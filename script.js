@@ -206,3 +206,25 @@ function init() {
     tSel.onchange();
 }
 init();
+
+// ===============================
+// FORCE FIX: Verb + ي → نِيْ
+// ===============================
+
+document.getElementById("btnGenerate").addEventListener("click", function(){
+
+    const type = document.getElementById("wordType").value;
+    const pron = document.getElementById("pronoun").value;
+
+    if(type === "verb" && sAr === "ي") sAr = "نِيْ" {
+
+        const arOut = document.getElementById("ar-out");
+
+        if(arOut && arOut.innerText){
+
+            // Replace ONLY ending ي with نِيْ
+            arOut.innerText = arOut.innerText.replace(/ي(?=\s|$|—)/g, "نِيْ");
+        }
+    }
+
+});
