@@ -1,9 +1,4 @@
-/**
- * QURANIC GRAMMAR ENGINE - AUTHENTIC MORPHOLOGY (V6 FINAL)
- * Specific Fix: "Jati" + Harf = "জাতির" (Not জাতিের).
- * Suffix Logic: Nouns ending in 'a', 'i', 'ee' or "Allah" get "r" (র).
- */
-// --- 1. DATASET: 50 QURANIC NOUNS ---
+
 const nouns = [
     { ar: "ٱللَّه", en: "Allah", bn: "আল্লাহ" }, { ar: "رَبّ", en: "Lord", bn: "প্রতিপালক" },
     { ar: "رَسُول", en: "Messenger", bn: "রাসূল" }, { ar: "كِتَٰب", en: "Book", bn: "কিতাব" },
