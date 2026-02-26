@@ -216,7 +216,8 @@ document.getElementById("btnGenerate").addEventListener("click", function(){
     const type = document.getElementById("wordType").value;
     const pron = document.getElementById("pronoun").value;
 
-    if(type === "verb" && sAr === "ي") sAr = "نِيْ" {
+    if(type === "verb" && sAr === "ي") sAr = "نِيْ";
+    {
 
         const arOut = document.getElementById("ar-out");
 
