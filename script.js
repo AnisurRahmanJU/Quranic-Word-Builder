@@ -2,7 +2,7 @@
 const nouns = [
     { ar: "ٱللَّه", en: "Allah", bn: "আল্লাহ" }, { ar: "رَبّ", en: "Lord", bn: "প্রতিপালক" },
     { ar: "رَسُول", en: "Messenger", bn: "রাসূল" }, { ar: "كِتَٰب", en: "Book", bn: "কিতাব" },
-    { ar: "ٱسْم", en: "Name", bn: "নাম" }, { ar: "عَبْد", en: "Slave", bn: "বান্দা" },
+    { ar: "ٱاسْم", en: "Name", bn: "নাম" }, { ar: "عَبْد", en: "Slave", bn: "বান্দা" },
     { ar: "قَلْب", en: "Heart", bn: "হৃদয়" }, { ar: "نَفْس", en: "Soul", bn: "প্রাণ" },
     { ar: "يَوْم", en: "Day", bn: "দিন" }, { ar: "دِين", en: "Religion", bn: "দ্বীন" },
     { ar: "نُور", en: "Light", bn: "আলো" }, { ar: "صِرَٰط", en: "Path", bn: "পথ" },
@@ -16,7 +16,7 @@ const nouns = [
     { ar: "فَضْل", en: "Grace", bn: "অনুগ্রহ" }, { ar: "رِزْق", en: "Provision", bn: "রিযিক" },
     { ar: "شَمْس", en: "Sun", bn: "সূর্য" }, { ar: "قَمَر", en: "Moon", bn: "চাঁদ" },
     { ar: "بَحْر", en: "Sea", bn: "সমুদ্র" }, { ar: "جَبَل", en: "Mountain", bn: "পাহাড়" },
-    { ar: "طَعَام", en: "Food", bn: "খাবার" }, { ar: "بَيِّنَة", en: "Evidence", bn: "প্রমাণ" },
+    { ar: "طَعَام", en: "Food", bn: "খাবার" }, { ar: "بَيِّনَة", en: "Evidence", bn: "প্রমাণ" },
     { ar: "بَصَر", en: "Vision", bn: "দৃষ্টি" }, { ar: "سَمْع", en: "Hearing", bn: "শ্রবণ" },
     { ar: "لِسَان", en: "Tongue", bn: "জিহ্বা" }, { ar: "يَد", en: "Hand", bn: "হাত" },
     { ar: "رِجْل", en: "Foot", bn: "পা" }, { ar: "وَلَد", en: "Child", bn: "সন্তান" },
@@ -104,39 +104,26 @@ function build() {
     let pAr = pref.ar;
     let sAr = pron.ar;
 
-    // Rule: Shift Hu to Hi after specific prepositions
     const shiftsHuToHi = ["بِ", "فِي", "إِلَى", "عَلَى"];
     if (type !== "verb" && shiftsHuToHi.includes(pAr)) {
         sAr = sAr.replace("هُ", "هِ").replace("هُمْ", "هِمْ").replace("هُمَا", "هِمَا").replace("هُنَّ", "هِنَّ");
     }
 
-    // --- NEW FIX: لِ + Pronoun mapping ---
-    if(pAr === "لِ" && sAr !== ""){
+    if(pAr === "لِ" && sAr !== "" && !item){
         const liMap = {
-            "ي": "لِيَ",
-            "هُ": "لَهُ",
-            "هُمَا": "لَهُمَا",
-            "هُمْ": "لَهُمْ",
-            "هَا": "لَهَا",
-            "هُمَا ": "لَهُمَا", // feminine dual
-            "هُنَّ": "لَهُنَّ",
-            "كَ": "لَكَ",
-            "كُمَا": "لَكُمَا",
-            "كُمْ": "لَكُمْ",
-            "كِ": "لَكِ",
-            "كُمَا ": "لَكُمَا",
-            "كُنَّ": "لَكُنَّ",
-            "نَا": "لَنَا"
+            "ي": "لِيَ", "هُ": "لَهُ", "هُمَا": "لَهُمَا", "هُمْ": "لَهُمْ",
+            "هَا": "لَهَا", "هُمَا ": "لَهُمَا", "هُنَّ": "لَهُنَّ", "كَ": "لَكَ",
+            "كُمَا": "لَكُمَا", "كُمْ": "لَكُمْ", "كِ": "لَكِ", "كُمَا ": "لَكُمَا",
+            "كُنَّ": "لَكُنَّ", "نَا": "لَنَا"
         };
         sAr = liMap[sAr] || sAr;
-        pAr = ""; // Already included in sAr
+        pAr = ""; 
     }
 
     if (type === "ism" && item) {
         let baseAr = item.ar;
-        
         if (sAr === "ي") {
-            baseAr = baseAr.replace(/[ٌُِ]$/, "");
+            baseAr = baseAr.replace(/[ٌُِ]$/, "");
             baseAr += "ِ";
         } else if (pAr === "") {
             baseAr = baseAr.replace(/[ِ]$/, "ُ"); 
@@ -146,14 +133,13 @@ function build() {
                 if (pAr === "لِ") { pAr = ""; baseAr = "لِلَّهِ"; }
                 else if (pAr === "بِ") { pAr = ""; baseAr = "بِٱللَّهِ"; }
                 else { baseAr = baseAr.replace(/[ُ]$/, "ِ"); }
-            } else if (baseAr === "ٱسْم" && pAr === "بِ") {
+            } else if (baseAr === "ٱاسْم" && pAr === "بِ") {
                 pAr = ""; baseAr = "بِسْمِ";
             } else {
                 baseAr = baseAr.replace(/[ٌُ]$/, "ِ");
                 if (!baseAr.endsWith("ِ") && !baseAr.endsWith("ٰ")) baseAr += "ِ";
             }
         }
-        
         const attachedHars = ["بِ", "لِ", "تَ", "كَ", "وَ"];
         const connector = (attachedHars.includes(pAr) || pAr === "") ? "" : " ";
         finalAr = pAr + connector + baseAr + sAr;
@@ -170,19 +156,8 @@ function build() {
     if (item && type === "ism") {
         enRes = `${pref.en} ${pron.ar ? pron.posEn : ""} ${item.en}`;
         let bnNoun = item.bn;
-        let suffix = "";
-        if (pAr !== "" || prefVal !== "") {
-            if (bnNoun === "আল্লাহ" || bnNoun.endsWith("া") || bnNoun.endsWith("ি") || bnNoun.endsWith("ী")) {
-                suffix = "র"; 
-            } else {
-                suffix = "ের";
-            }
-        }
-        if (pAr === "" && prefVal === "") {
-            bnRes = `${pron.ar ? pron.posBn : ""} ${bnNoun}`;
-        } else {
-            bnRes = `${pron.ar ? pron.posBn : ""} ${bnNoun}${suffix} ${pref.bn}`;
-        }
+        let suffix = (bnNoun === "আল্লাহ" || bnNoun.endsWith("া") || bnNoun.endsWith("ি") || bnNoun.endsWith("ী")) ? "র" : "ের";
+        bnRes = (pAr === "" && prefVal === "") ? `${pron.ar ? pron.posBn : ""} ${bnNoun}` : `${pron.ar ? pron.posBn : ""} ${bnNoun}${suffix} ${pref.bn}`;
     } else if (item) {
         enRes = `${item.enP} ${pron.en} — ${item.enM} ${pron.en}`;
         bnRes = `তিনি ${pron.verb_bn || ""} ${item.bnP} — তিনি ${pron.verb_bn || ""} ${item.bnM}`;
@@ -227,6 +202,7 @@ init();
 // FORCE FIX: Verb + ي → نِيْ
 // ===============================
 
+
 document.getElementById("btnGenerate").addEventListener("click", function(){
 
     const type = document.getElementById("wordType").value;
@@ -247,4 +223,3 @@ document.getElementById("btnGenerate").addEventListener("click", function(){
     }
 
 });
-
